@@ -26,6 +26,7 @@ public class JobSimpleTest : MonoBehaviour
         var job = new JobSimple {Data = array};
         var handle = job.Schedule();
         handle.Complete();
-        Debug.Log($"[{array[0]}] [{array[1]}]");
+        //Debug.Log($"[{array[0]}] [{array[1]}]");
+        array.Dispose();
     }
 }

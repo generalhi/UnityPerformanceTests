@@ -25,7 +25,7 @@ namespace Components.UI.DevConsole
                 _scrollbar.value = 0;
             }
         }
-        
+
         public static void WriteLine(string text)
         {
             _instance._textContent.text += text + "\n";

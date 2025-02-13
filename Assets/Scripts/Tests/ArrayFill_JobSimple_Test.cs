@@ -2,7 +2,6 @@ using System.Diagnostics;
 using Components.UI.DevConsole;
 using Unity.Collections;
 using Unity.Jobs;
-using Debug = UnityEngine.Debug;
 
 public class ArrayFill_JobSimple_Test
 {
@@ -13,7 +12,10 @@ public class ArrayFill_JobSimple_Test
 
         public void Execute()
         {
-            Data[1] = Value;
+            for (var i = 0; i < Data.Length; i++)
+            {
+                Data[i] = Value;
+            }
         }
     }
 

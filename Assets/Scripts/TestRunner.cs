@@ -26,8 +26,6 @@ namespace DefaultNamespace
 
         private void Run()
         {
-            //DevConsole.WriteLine("Run");
-
             var count = 1000000;
             DevConsole.WriteLine($"Run. Count - {count}");
 

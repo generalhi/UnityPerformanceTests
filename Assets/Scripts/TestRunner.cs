@@ -13,8 +13,10 @@ namespace Test
 
         private readonly ArrayFill_Managed_Test _arrayFill_Managed_Test = new();
         private readonly ArrayFill_Unmanaged_Test _arrayFill_Unmanaged_Test = new();
+        private readonly ArrayFill_NativeArray_Test _arrayFill_NativeArray_Test = new();
         private readonly ArrayFill_JobSimple_Test _arrayFill_JobSimple_Test = new();
         private readonly ArrayFill_JobParallelFor_Test _arrayFill_JobParallelFor_Test = new();
+        private readonly ArrayFill_JobParallelForUnmanaged_Test _arrayFill_JobParallelForUnmanaged_Test = new();
 
         private void Start()
         {
@@ -31,12 +33,13 @@ namespace Test
         private void Run()
         {
             var count = 1000000;
-            DevConsole.WriteLine($"Run. Count - {count}");
-
+            DevConsole.WriteLine($"---Run. Count - {count}");
             _arrayFill_Managed_Test.Start(count);
             _arrayFill_Unmanaged_Test.Start(count);
+            _arrayFill_NativeArray_Test.Start(count);
             _arrayFill_JobSimple_Test.Start(count);
             _arrayFill_JobParallelFor_Test.Start(count);
+            _arrayFill_JobParallelForUnmanaged_Test.Start(count);
         }
 
         private void Update()

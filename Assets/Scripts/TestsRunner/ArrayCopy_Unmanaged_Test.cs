@@ -3,21 +3,21 @@ using Components.UI.DevConsole;
 
 namespace TestsRunner.Tests
 {
-    public unsafe class ArrayFill_Unmanaged_Test
+    public unsafe class ArrayCopy_Unmanaged_Test
     {
         public void Start(int count)
         {
-            var array = new int[count];
-            var value = 1;
+            var array1 = new int[count];
+            var array2 = new int[count];
 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            fixed (int* ptr = &array[0])
+            fixed (int* ptr1 = &array1[0], ptr2 = &array2[0])
             {
                 for (var i = 0; i < count; i++)
                 {
-                    ptr[i] = value;
+                    ptr1[i] = ptr2[i];
                 }
             }
 

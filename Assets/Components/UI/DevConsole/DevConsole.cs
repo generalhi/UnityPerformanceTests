@@ -8,7 +8,7 @@ namespace Components.UI.DevConsole
     {
         private TextMeshProUGUI _textContent;
         private Scrollbar _scrollbar;
-
+        private int _updateCount;
         private static DevConsole _instance;
 
         private void Awake()
@@ -20,15 +20,18 @@ namespace Components.UI.DevConsole
 
         private void LateUpdate()
         {
-            if (_scrollbar.value > 0)
+            if (_updateCount > 0 && 
+                _scrollbar.value > 0)
             {
                 _scrollbar.value = 0;
+                _updateCount--;
             }
         }
 
         public static void WriteLine(string text)
         {
             _instance._textContent.text += text + "\n";
+            _instance._updateCount = 2;
         }
     }
 }

@@ -2,7 +2,7 @@
 using Components.UI.DevConsole;
 using Unity.Collections;
 
-namespace TestsRunner.Tests
+namespace TestsRunner.Tests.Fill
 {
     public class Fill_NativeArray_For_Managed
     {

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Components.UI.DevConsole;
 
-namespace TestsRunner.Tests
+namespace TestsRunner.Tests.Copy
 {
     public class Copy_Array_For_Managed
     {

@@ -2,7 +2,7 @@
 using Components.UI.DevConsole;
 using Unity.Burst;
 
-namespace TestsRunner.Tests
+namespace TestsRunner.Tests.Fill
 {
     [BurstCompile]
     public unsafe class Fill_Array_For_Unmanaged_Burst

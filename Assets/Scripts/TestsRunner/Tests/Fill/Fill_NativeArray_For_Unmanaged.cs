@@ -3,7 +3,7 @@ using Components.UI.DevConsole;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 
-namespace TestsRunner.Tests
+namespace TestsRunner.Tests.Fill
 {
     public unsafe class Fill_NativeArray_For_Unmanaged
     {

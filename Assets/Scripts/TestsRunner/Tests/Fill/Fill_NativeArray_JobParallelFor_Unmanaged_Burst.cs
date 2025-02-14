@@ -5,7 +5,7 @@ using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Jobs;
 
-namespace TestsRunner.Tests
+namespace TestsRunner.Tests.Fill
 {
     public class Fill_NativeArray_JobParallelFor_Unmanaged_Burst
     {

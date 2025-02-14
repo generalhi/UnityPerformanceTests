@@ -1,33 +1,33 @@
 ﻿using System.Diagnostics;
 using Components.UI.DevConsole;
-using Unity.Burst;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 
-namespace TestsRunner.Tests.Fill
+namespace TestsRunner.Tests.Copy
 {
-    [BurstCompile]
-    public unsafe class Fill_NativeArray_For_Unmanaged_Burst
+    public unsafe class Copy_NativeArray_For_Unmanaged
     {
         public void Start(int count)
         {
-            var array = new NativeArray<int>(count, Allocator.Temp);
-            var value = 1;
+            var input = new NativeArray<int>(count, Allocator.Temp);
+            var output = new NativeArray<int>(count, Allocator.Temp);
 
-            var ptr = (int*) array.GetUnsafePtr();
+            var ptrInput = (int*) input.GetUnsafePtr();
+            var ptrOutput = (int*) output.GetUnsafePtr();
 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
             for (var i = 0; i < count; i++)
             {
-                ptr[i] = value;
+                ptrOutput[i] = ptrInput[i];
             }
 
             stopwatch.Stop();
             DevConsole.WriteLine($"{GetType().Name,TestRunner.MethodNameSpace} - {stopwatch.ElapsedTicks} ticks");
 
-            array.Dispose();
+            input.Dispose();
+            output.Dispose();
         }
     }
 }

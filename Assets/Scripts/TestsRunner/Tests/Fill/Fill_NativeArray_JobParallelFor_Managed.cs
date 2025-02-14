@@ -1,10 +1,9 @@
 ﻿using System.Diagnostics;
 using Components.UI.DevConsole;
-using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
 
-namespace TestsRunner.Tests
+namespace TestsRunner.Tests.Fill
 {
     public class Fill_NativeArray_JobParallelFor_Managed
     {

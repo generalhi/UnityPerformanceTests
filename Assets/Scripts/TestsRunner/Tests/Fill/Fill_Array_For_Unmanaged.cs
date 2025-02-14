@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Components.UI.DevConsole;
 
-namespace TestsRunner.Tests
+namespace TestsRunner.Tests.Fill
 {
     public unsafe class Fill_Array_For_Unmanaged
     {

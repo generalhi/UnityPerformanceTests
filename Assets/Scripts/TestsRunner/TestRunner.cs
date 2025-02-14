@@ -1,5 +1,7 @@
 ﻿using Components.UI.DevConsole;
 using TestsRunner.Tests;
+using TestsRunner.Tests.Copy;
+using TestsRunner.Tests.Fill;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,6 +35,10 @@ namespace TestsRunner
         private readonly Copy_Array_For_Managed _copyArrayForManaged = new();
         private readonly Copy_Array_For_Unmanaged _copyArrayForUnmanaged = new();
         private readonly Copy_Array_For_Unmanaged_Burst _copyArrayForUnmanagedBurst = new();
+
+        private readonly Copy_NativeArray_For_Managed _copyNativeArrayForManaged = new();
+        private readonly Copy_NativeArray_For_Unmanaged _copyNativeArrayForUnmanaged = new();
+        private readonly Copy_NativeArray_For_Unmanaged_Burst _copyNativeArrayForUnmanagedBurst = new();
 
         private void Start()
         {
@@ -82,6 +88,9 @@ namespace TestsRunner
             _copyArrayForUnmanagedBurst.Start(count);
             DevConsole.WriteLine(string.Empty);
 
+            _copyNativeArrayForManaged.Start(count);
+            _copyNativeArrayForUnmanaged.Start(count);
+            _copyArrayForUnmanagedBurst.Start(count);
             DevConsole.WriteLine(string.Empty);
         }
 

@@ -3,7 +3,7 @@ using Components.UI.DevConsole;
 
 namespace TestsRunner.Tests
 {
-    public unsafe class ArrayFill_Unmanaged_Test
+    public unsafe class Fill_Array_For_Unmanaged
     {
         public void Start(int count)
         {
@@ -22,7 +22,7 @@ namespace TestsRunner.Tests
             }
 
             stopwatch.Stop();
-            DevConsole.WriteLine($"{ToString()} - {stopwatch.ElapsedTicks} ticks");
+            DevConsole.WriteLine($"{GetType().Name} - {stopwatch.ElapsedTicks} ticks");
         }
     }
 }

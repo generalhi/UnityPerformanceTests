@@ -4,7 +4,7 @@ using Unity.Collections;
 
 namespace TestsRunner.Tests
 {
-    public class ArrayFill_NativeArray_Test
+    public class Fill_NativeArray_For_Managed
     {
         public void Start(int count)
         {
@@ -20,7 +20,7 @@ namespace TestsRunner.Tests
             }
 
             stopwatch.Stop();
-            DevConsole.WriteLine($"{ToString()} - {stopwatch.ElapsedTicks} ticks");
+            DevConsole.WriteLine($"{GetType().Name} - {stopwatch.ElapsedTicks} ticks");
 
             array.Dispose();
         }

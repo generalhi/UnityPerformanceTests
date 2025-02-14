@@ -20,8 +20,7 @@ namespace Components.UI.DevConsole
 
         private void LateUpdate()
         {
-            if (_updateCount > 0 && 
-                _scrollbar.value > 0)
+            if (_updateCount > 0 && _scrollbar.value > 0)
             {
                 _scrollbar.value = 0;
                 _updateCount--;

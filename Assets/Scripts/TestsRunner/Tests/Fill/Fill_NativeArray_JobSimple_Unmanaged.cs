@@ -1,34 +1,34 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Components.UI.DevConsole;
 using Unity.Collections;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.Jobs;
 
 namespace TestsRunner.Tests
 {
-    public class ArrayFill_JobSimple_Test
+    public class Fill_NativeArray_JobSimple_Unmanaged
     {
-        private struct JobSimple : IJob
+        private unsafe struct JobSimple : IJob
         {
-            public NativeArray<int> Data;
+            [NativeDisableUnsafePtrRestriction]
+            public int* Ptr;
+
+            public int Count;
             public int Value;
 
             public void Execute()
             {
-                for (var i = 0; i < Data.Length; i++)
+                for (var i = 0; i < Count; i++)
                 {
-                    Data[i] = Value;
+                    Ptr[i] = Value;
                 }
             }
         }
 
-        public void Start(int count)
+        public unsafe void Start(int count)
         {
             var array = new NativeArray<int>(count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
-            var job = new JobSimple
-            {
-                Data = array,
-                Value = 1
-            };
+            var job = new JobSimple {Ptr = (int*) array.GetUnsafePtr(), Value = 1};
 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -37,7 +37,7 @@ namespace TestsRunner.Tests
             handle.Complete();
 
             stopwatch.Stop();
-            DevConsole.WriteLine($"{ToString()} - {stopwatch.ElapsedTicks} ticks");
+            DevConsole.WriteLine($"{GetType().Name} - {stopwatch.ElapsedTicks} ticks");
 
             array.Dispose();
         }

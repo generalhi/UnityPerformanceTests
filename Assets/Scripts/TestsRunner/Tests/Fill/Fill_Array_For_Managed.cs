@@ -1,7 +1,5 @@
-﻿using System.ComponentModel;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Components.UI.DevConsole;
-using Unity.VisualScripting;
 
 namespace TestsRunner.Tests
 {
@@ -21,7 +19,7 @@ namespace TestsRunner.Tests
             }
 
             stopwatch.Stop();
-            DevConsole.WriteLine($"{GetType().Name} - {stopwatch.ElapsedTicks} ticks");
+            DevConsole.WriteLine($"{GetType().Name,TestRunner.MethodNameSpace} - {stopwatch.ElapsedTicks} ticks");
         }
     }
 }

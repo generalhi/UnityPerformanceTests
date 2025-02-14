@@ -1,9 +1,11 @@
 ﻿using System.Diagnostics;
 using Components.UI.DevConsole;
+using Unity.Burst;
 
 namespace TestsRunner.Tests
 {
-    public unsafe class Fill_Array_For_Unmanaged
+    [BurstCompile]
+    public unsafe class Fill_Array_For_Unmanaged_Burst
     {
         public void Start(int count)
         {

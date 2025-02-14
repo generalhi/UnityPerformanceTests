@@ -8,7 +8,6 @@ namespace TestsRunner.Tests
 {
     public class Fill_NativeArray_JobParallelFor_Managed
     {
-        [BurstCompile]
         private struct JobParallelFor : IJobParallelFor
         {
             public NativeArray<int> Input;
@@ -33,7 +32,7 @@ namespace TestsRunner.Tests
             handle.Complete();
 
             stopwatch.Stop();
-            DevConsole.WriteLine($"{GetType().Name} - {stopwatch.ElapsedTicks} ticks");
+            DevConsole.WriteLine($"{GetType().Name,TestRunner.MethodNameSpace} - {stopwatch.ElapsedTicks} ticks");
 
             input.Dispose();
         }

@@ -19,7 +19,7 @@ namespace TestsRunner.Tests
             }
 
             stopwatch.Stop();
-            DevConsole.WriteLine($"{GetType().Name} - {stopwatch.ElapsedTicks} ticks");
+            DevConsole.WriteLine($"{GetType().Name,TestRunner.MethodNameSpace} - {stopwatch.ElapsedTicks} ticks");
         }
     }
 }

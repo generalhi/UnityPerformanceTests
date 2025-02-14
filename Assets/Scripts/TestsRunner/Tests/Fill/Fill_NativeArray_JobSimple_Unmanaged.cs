@@ -28,7 +28,7 @@ namespace TestsRunner.Tests
         public unsafe void Start(int count)
         {
             var array = new NativeArray<int>(count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
-            var job = new JobSimple {Ptr = (int*) array.GetUnsafePtr(), Value = 1};
+            var job = new JobSimple {Ptr = (int*) array.GetUnsafePtr(), Count = count, Value = 1};
 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -37,7 +37,7 @@ namespace TestsRunner.Tests
             handle.Complete();
 
             stopwatch.Stop();
-            DevConsole.WriteLine($"{GetType().Name} - {stopwatch.ElapsedTicks} ticks");
+            DevConsole.WriteLine($"{GetType().Name,TestRunner.MethodNameSpace} - {stopwatch.ElapsedTicks} ticks");
 
             array.Dispose();
         }

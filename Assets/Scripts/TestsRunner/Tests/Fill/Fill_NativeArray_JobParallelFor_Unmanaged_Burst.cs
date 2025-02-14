@@ -1,13 +1,15 @@
 ﻿using System.Diagnostics;
 using Components.UI.DevConsole;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Jobs;
 
 namespace TestsRunner.Tests
 {
-    public class Fill_NativeArray_JobParallelFor_Unmanaged
+    public class Fill_NativeArray_JobParallelFor_Unmanaged_Burst
     {
+        [BurstCompile]
         private unsafe struct JobParallelFor : IJobParallelFor
         {
             [NativeDisableUnsafePtrRestriction]

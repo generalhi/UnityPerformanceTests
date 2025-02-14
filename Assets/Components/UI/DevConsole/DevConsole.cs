@@ -27,6 +27,11 @@ namespace Components.UI.DevConsole
             }
         }
 
+        public static void Clear()
+        {
+            _instance._textContent.text = string.Empty;
+        }
+
         public static void WriteLine(string text)
         {
             _instance._textContent.text += text + "\n";

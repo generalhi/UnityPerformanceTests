@@ -7,6 +7,9 @@ namespace TestsRunner.Tests.Copy
     {
         public void Start(int count)
         {
+            var type = "int[]";
+            var body = "a[i] = b[i]";
+            
             var array1 = new int[count];
             var array2 = new int[count];
 
@@ -19,7 +22,11 @@ namespace TestsRunner.Tests.Copy
             }
 
             stopwatch.Stop();
-            DevConsole.WriteLine($"{GetType().Name,TestRunner.MethodNameSpace} - {stopwatch.ElapsedTicks} ticks");
+            DevConsole.WriteLine(
+                $"{GetType().Name,TestRunner.MethodNameLength} | " +
+                $"{type, TestRunner.TypeLength} | " +
+                $"{body, TestRunner.BodyLength} | " +
+                $"{stopwatch.ElapsedTicks} ticks");
         }
     }
 }

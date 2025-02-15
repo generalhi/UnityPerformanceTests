@@ -11,6 +11,9 @@ namespace TestsRunner.Tests.Copy
     {
         public void Start(int count)
         {
+            var type = "NativeArray<int>()";
+            var body = "UnsafeUtility.MemCpy()";
+
             var input = new NativeArray<int>(count, Allocator.Temp);
             var output = new NativeArray<int>(count, Allocator.Temp);
 
@@ -23,7 +26,11 @@ namespace TestsRunner.Tests.Copy
             UnsafeUtility.MemCpy(ptrOutput, ptrInput, count * sizeof(int));
 
             stopwatch.Stop();
-            DevConsole.WriteLine($"{GetType().Name,TestRunner.MethodNameSpace} - {stopwatch.ElapsedTicks} ticks");
+            DevConsole.WriteLine(
+                $"{GetType().Name,TestRunner.MethodNameLength} | " +
+                $"{type, TestRunner.TypeLength} | " +
+                $"{body, TestRunner.BodyLength} | " +
+                $"{stopwatch.ElapsedTicks} ticks");
 
             input.Dispose();
             output.Dispose();

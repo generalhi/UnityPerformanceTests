@@ -20,6 +20,9 @@ namespace TestsRunner.Tests.Fill
 
         public void Start(int count)
         {
+            var type = "NativeArray<int>()";
+            var body = "a[i] = n";
+
             var input = new NativeArray<int>(count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
 
             var job = new JobParallelFor {Input = input, Value = 1};
@@ -31,7 +34,11 @@ namespace TestsRunner.Tests.Fill
             handle.Complete();
 
             stopwatch.Stop();
-            DevConsole.WriteLine($"{GetType().Name,TestRunner.MethodNameSpace} - {stopwatch.ElapsedTicks} ticks");
+            DevConsole.WriteLine(
+                $"{GetType().Name,TestRunner.MethodNameLength} | " +
+                $"{type, TestRunner.TypeLength} | " +
+                $"{body, TestRunner.BodyLength} | " +
+                $"{stopwatch.ElapsedTicks} ticks");
 
             input.Dispose();
         }

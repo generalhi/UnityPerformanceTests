@@ -7,6 +7,9 @@ namespace TestsRunner.Tests.Fill
     {
         public void Start(int count)
         {
+            var type = "int[]";
+            var body = "a[i] = n";
+
             var array = new int[count];
             var value = 1;
 
@@ -19,7 +22,11 @@ namespace TestsRunner.Tests.Fill
             }
 
             stopwatch.Stop();
-            DevConsole.WriteLine($"{GetType().Name,TestRunner.MethodNameSpace} - {stopwatch.ElapsedTicks} ticks");
+            DevConsole.WriteLine(
+                $"{GetType().Name,TestRunner.MethodNameLength} | " +
+                $"{type, TestRunner.TypeLength} | " +
+                $"{body, TestRunner.BodyLength} | " +
+                $"{stopwatch.ElapsedTicks} ticks");
         }
     }
 }

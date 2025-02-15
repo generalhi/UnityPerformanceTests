@@ -1,16 +1,16 @@
 ﻿using Components.UI.DevConsole;
-using TestsRunner.Tests;
 using TestsRunner.Tests.Copy;
 using TestsRunner.Tests.Fill;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace TestsRunner
 {
     public class TestRunner : MonoBehaviour
     {
-        public const int MethodNameSpace = 50;
+        public const int MethodNameLength = 50;
+        public const int TypeLength = 18;
+        public const int BodyLength = 22;
 
         [SerializeField]
         private Button _buttonClear;
@@ -40,12 +40,13 @@ namespace TestsRunner
         private readonly Copy_Array_For_Managed _copyArrayForManaged = new();
         private readonly Copy_Array_For_Unmanaged _copyArrayForUnmanaged = new();
         private readonly Copy_Array_For_Unmanaged_Burst _copyArrayForUnmanagedBurst = new();
-        private readonly Copy_Array_Managed _copyArrayManaged = new();
-        private readonly Copy_Array_Managed_Burst _copyArrayManagedBurst = new();
 
         private readonly Copy_NativeArray_For_Managed _copyNativeArrayForManaged = new();
         private readonly Copy_NativeArray_For_Unmanaged _copyNativeArrayForUnmanaged = new();
         private readonly Copy_NativeArray_For_Unmanaged_Burst _copyNativeArrayForUnmanagedBurst = new();
+
+        private readonly Copy_Array_Managed _copyArrayManaged = new();
+        private readonly Copy_Array_Managed_Burst _copyArrayManagedBurst = new();
         private readonly Copy_NativeArray_Unmanaged _copyNativeArrayUnmanaged = new();
         private readonly Copy_NativeArray_Unmanaged_Burst _copyNativeArrayUnmanagedBurst = new();
 
@@ -77,8 +78,18 @@ namespace TestsRunner
 
         private void Run()
         {
-            var count = 1000000;
+            var count = 100_000_000;
             DevConsole.WriteLine($"---Run. Count - {count}");
+
+            var methodName = "Method Name";
+            var type = "Type";
+            var body = "Body";
+            var time = "Time";
+            DevConsole.WriteLine(
+                $"{methodName,MethodNameLength} | " +
+                $"{type,TypeLength} | " +
+                $"{body,BodyLength} | " +
+                $"{time}");
 
             DevConsole.WriteLine($"--- Fill");
             DevConsole.WriteLine(string.Empty);
@@ -86,6 +97,8 @@ namespace TestsRunner
             _fillArrayForManaged.Start(count);
             _fillArrayForUnmanaged.Start(count);
             _fillArrayForUnmanagedBurst.Start(count);
+            DevConsole.WriteLine(string.Empty);
+
             _fillArrayWhileUnmanagedBurst.Start(count);
             DevConsole.WriteLine(string.Empty);
 
@@ -110,16 +123,17 @@ namespace TestsRunner
             _copyArrayForManaged.Start(count);
             _copyArrayForUnmanaged.Start(count);
             _copyArrayForUnmanagedBurst.Start(count);
-            _copyArrayManaged.Start(count);
-            _copyArrayManagedBurst.Start(count);
             DevConsole.WriteLine(string.Empty);
 
             _copyNativeArrayForManaged.Start(count);
             _copyNativeArrayForUnmanaged.Start(count);
             _copyNativeArrayForUnmanagedBurst.Start(count);
+            DevConsole.WriteLine(string.Empty);
+
+            _copyArrayManaged.Start(count);
+            _copyArrayManagedBurst.Start(count);
             _copyNativeArrayUnmanaged.Start(count);
             _copyNativeArrayUnmanagedBurst.Start(count);
-
             DevConsole.WriteLine(string.Empty);
         }
 

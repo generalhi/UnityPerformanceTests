@@ -27,6 +27,9 @@ namespace TestsRunner.Tests.Fill
 
         public unsafe void Start(int count)
         {
+            var type = "NativeArray<int>()";
+            var body = "ptr[i] = n";
+
             var array = new NativeArray<int>(count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
             var job = new JobSimple {Ptr = (int*) array.GetUnsafePtr(), Count = count, Value = 1};
 
@@ -37,7 +40,11 @@ namespace TestsRunner.Tests.Fill
             handle.Complete();
 
             stopwatch.Stop();
-            DevConsole.WriteLine($"{GetType().Name,TestRunner.MethodNameSpace} - {stopwatch.ElapsedTicks} ticks");
+            DevConsole.WriteLine(
+                $"{GetType().Name,TestRunner.MethodNameLength} | " +
+                $"{type, TestRunner.TypeLength} | " +
+                $"{body, TestRunner.BodyLength} | " +
+                $"{stopwatch.ElapsedTicks} ticks");
 
             array.Dispose();
         }

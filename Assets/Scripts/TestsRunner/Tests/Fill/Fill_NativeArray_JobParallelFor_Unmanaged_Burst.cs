@@ -41,8 +41,8 @@ namespace TestsRunner.Tests.Fill
             stopwatch.Stop();
             DevConsole.WriteLine(
                 $"{GetType().Name,TestRunner.MethodNameLength} | " +
-                $"{type, TestRunner.TypeLength} | " +
-                $"{body, TestRunner.BodyLength} | " +
+                $"{type,TestRunner.TypeLength} | " +
+                $"{body,TestRunner.BodyLength} | " +
                 $"{stopwatch.ElapsedTicks} ticks");
 
             input.Dispose();

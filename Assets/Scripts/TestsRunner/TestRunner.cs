@@ -1,6 +1,7 @@
 ﻿using Components.UI.DevConsole;
 using TestsRunner.Tests.Copy;
 using TestsRunner.Tests.Fill;
+using TestsRunner.Tests.Update;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +10,7 @@ namespace TestsRunner
     public class TestRunner : MonoBehaviour
     {
         public const int MethodNameLength = 50;
-        public const int TypeLength = 18;
+        public const int TypeLength = 21;
         public const int BodyLength = 22;
 
         [SerializeField]
@@ -47,12 +48,24 @@ namespace TestsRunner
 
         private readonly Copy_NativeArray_JobParallelFor_Managed _copyNativeArrayJobParallelForManaged = new();
         private readonly Copy_NativeArray_JobParallelFor_Unmanaged _copyNativeArrayJobParallelForUnmanaged = new();
-        private readonly Copy_NativeArray_JobParallelFor_Unmanaged_Burst _copyNativeArrayJobParallelForUnmanagedBurst = new();
-        
+
+        private readonly Copy_NativeArray_JobParallelFor_Unmanaged_Burst _copyNativeArrayJobParallelForUnmanagedBurst =
+            new();
+
         private readonly Copy_Array_Managed _copyArrayManaged = new();
         private readonly Copy_Array_Managed_Burst _copyArrayManagedBurst = new();
         private readonly Copy_NativeArray_Unmanaged _copyNativeArrayUnmanaged = new();
         private readonly Copy_NativeArray_Unmanaged_Burst _copyNativeArrayUnmanagedBurst = new();
+
+        private readonly Update_Array_For_Managed _updateArrayForManaged = new();
+        private readonly Update_Array_For_Unmanaged _updateArrayForUnmanaged = new();
+        private readonly Update_Array_For_Unmanaged_Burst _updateArrayForUnmanagedBurst = new();
+
+        private readonly Update_NativeArray_JobParallelFor_Managed _updateNativeArrayJobParallelForManaged = new();
+        private readonly Update_NativeArray_JobParallelFor_Unmanaged _updateNativeArrayJobParallelForUnmanaged = new();
+
+        private readonly Update_NativeArray_JobParallelFor_Unmanaged_Burst
+            _updateNativeArrayJobParallelForUnmanagedBurst = new();
 
         private void Start()
         {
@@ -82,7 +95,7 @@ namespace TestsRunner
 
         private void Run()
         {
-            var count = 100_000_000;
+            var count = 10_000_000;
             DevConsole.WriteLine($"---Run. Count - {count}");
 
             var methodName = "Method Name";
@@ -145,7 +158,16 @@ namespace TestsRunner
             _copyNativeArrayUnmanaged.Start(count);
             _copyNativeArrayUnmanagedBurst.Start(count);
             DevConsole.WriteLine(string.Empty);
-            
+
+            DevConsole.WriteLine($"--- Update");
+            _updateArrayForManaged.Start(count);
+            _updateArrayForUnmanaged.Start(count);
+            _updateArrayForUnmanagedBurst.Start(count);
+            DevConsole.WriteLine(string.Empty);
+            _updateNativeArrayJobParallelForManaged.Start(count);
+            _updateNativeArrayJobParallelForUnmanaged.Start(count);
+            _updateNativeArrayJobParallelForUnmanagedBurst.Start(count);
+            DevConsole.WriteLine(string.Empty);
         }
 
         private void Update()

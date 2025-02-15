@@ -25,15 +25,14 @@ namespace TestsRunner.Tests.Fill
                 do
                 {
                     ptr[i] = value;
-                }
-                while (i++ < count);
+                } while (i++ < count);
             }
 
             stopwatch.Stop();
             DevConsole.WriteLine(
                 $"{GetType().Name,TestRunner.MethodNameLength} | " +
-                $"{type, TestRunner.TypeLength} | " +
-                $"{body, TestRunner.BodyLength} | " +
+                $"{type,TestRunner.TypeLength} | " +
+                $"{body,TestRunner.BodyLength} | " +
                 $"{stopwatch.ElapsedTicks} ticks");
         }
     }

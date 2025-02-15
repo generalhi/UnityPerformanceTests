@@ -27,8 +27,8 @@ namespace TestsRunner.Tests.Copy
             stopwatch.Stop();
             DevConsole.WriteLine(
                 $"{GetType().Name,TestRunner.MethodNameLength} | " +
-                $"{type, TestRunner.TypeLength} | " +
-                $"{body, TestRunner.BodyLength} | " +
+                $"{type,TestRunner.TypeLength} | " +
+                $"{body,TestRunner.BodyLength} | " +
                 $"{stopwatch.ElapsedTicks} ticks");
         }
     }

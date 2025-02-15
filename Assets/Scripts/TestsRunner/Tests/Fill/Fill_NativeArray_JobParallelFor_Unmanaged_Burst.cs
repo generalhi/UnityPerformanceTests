@@ -10,7 +10,6 @@ namespace TestsRunner.Tests.Fill
     public class Fill_NativeArray_JobParallelFor_Unmanaged_Burst
     {
         [BurstCompile]
-        [NativeContainer]
         private unsafe struct JobParallelFor : IJobParallelFor
         {
             [NativeDisableUnsafePtrRestriction]

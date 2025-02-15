@@ -45,6 +45,10 @@ namespace TestsRunner
         private readonly Copy_NativeArray_For_Unmanaged _copyNativeArrayForUnmanaged = new();
         private readonly Copy_NativeArray_For_Unmanaged_Burst _copyNativeArrayForUnmanagedBurst = new();
 
+        private readonly Copy_NativeArray_JobParallelFor_Managed _copyNativeArrayJobParallelForManaged = new();
+        private readonly Copy_NativeArray_JobParallelFor_Unmanaged _copyNativeArrayJobParallelForUnmanaged = new();
+        private readonly Copy_NativeArray_JobParallelFor_Unmanaged_Burst _copyNativeArrayJobParallelForUnmanagedBurst = new();
+        
         private readonly Copy_Array_Managed _copyArrayManaged = new();
         private readonly Copy_Array_Managed_Burst _copyArrayManagedBurst = new();
         private readonly Copy_NativeArray_Unmanaged _copyNativeArrayUnmanaged = new();
@@ -130,11 +134,18 @@ namespace TestsRunner
             _copyNativeArrayForUnmanagedBurst.Start(count);
             DevConsole.WriteLine(string.Empty);
 
+            _copyNativeArrayJobParallelForManaged.Start(count);
+            _copyNativeArrayJobParallelForUnmanaged.Start(count);
+            _copyNativeArrayJobParallelForUnmanagedBurst.Start(count);
+            DevConsole.WriteLine(string.Empty);
+
+            DevConsole.WriteLine($"--- Copy Array");
             _copyArrayManaged.Start(count);
             _copyArrayManagedBurst.Start(count);
             _copyNativeArrayUnmanaged.Start(count);
             _copyNativeArrayUnmanagedBurst.Start(count);
             DevConsole.WriteLine(string.Empty);
+            
         }
 
         private void Update()

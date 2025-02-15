@@ -6,32 +6,38 @@ using Unity.Jobs;
 
 namespace TestsRunner.Tests.Fill
 {
-    public class Fill_NativeArray_JobParallelFor_Unmanaged
+    public class Copy_NativeArray_JobParallelFor_Unmanaged
     {
         private unsafe struct JobParallelFor : IJobParallelFor
         {
             [NativeDisableUnsafePtrRestriction]
-            public int* Ptr;
+            public int* PtrInput;
 
-            public int Value;
+            [NativeDisableUnsafePtrRestriction]
+            public int* PtrOutput;
 
             public void Execute(int i)
             {
-                Ptr[i] = Value;
+                PtrOutput[i] = PtrInput[i];
             }
         }
 
         public unsafe void Start(int count)
         {
             var type = "NativeArray<int>()";
-            var body = "ptr[i] = n";
+            var body = "ptr1[i] = ptr2[i]";
 
             var input = new NativeArray<int>(count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
+            var output = new NativeArray<int>(count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            var job = new JobParallelFor {Ptr = (int*) input.GetUnsafePtr(), Value = 1};
+            var job = new JobParallelFor
+            {
+                PtrInput = (int*) input.GetUnsafePtr(),
+                PtrOutput = (int*) output.GetUnsafePtr(),
+            };
 
             var handle = job.Schedule(count, 64);
             handle.Complete();

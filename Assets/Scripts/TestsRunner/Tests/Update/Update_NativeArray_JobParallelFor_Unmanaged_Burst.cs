@@ -4,54 +4,80 @@ using Unity.Burst;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Jobs;
+using UnityEngine;
 
 namespace TestsRunner.Tests.Copy
 {
-    [BurstCompile]
     public class Update_NativeArray_JobParallelFor_Unmanaged_Burst
     {
         private struct Data
         {
-            public int A;
-            public float B;
+            public float health;
+            public float maxHealth;
+            public float healthRegenRate;
+            public float stamina;
+            public float maxStamina;
+            public float staminaRegenRate;
         }
 
         [BurstCompile]
         private unsafe struct JobParallelFor : IJobParallelFor
         {
             [NativeDisableUnsafePtrRestriction]
-            public int* PtrInput;
-
-            [NativeDisableUnsafePtrRestriction]
-            public Data* PtrOutput;
+            public Data* Ptr;
+            public float DeltaTime;
 
             public void Execute(int i)
             {
-                var n = PtrInput[i];
-                PtrOutput[i].A = n + n;
-                PtrOutput[i].B = n - n / 2f;
+                if (Ptr[i].health > 0 && Ptr[i].health < Ptr[i].maxHealth)
+                {
+                    Ptr[i].health += Ptr[i].healthRegenRate * DeltaTime;
+                    if (Ptr[i].health > Ptr[i].maxHealth)
+                    {
+                        Ptr[i].health = Ptr[i].maxHealth;
+                    }
+                }
+
+                if (Ptr[i].stamina > 0 && Ptr[i].stamina < Ptr[i].maxStamina)
+                {
+                    Ptr[i].stamina += Ptr[i].staminaRegenRate * DeltaTime;
+                    if (Ptr[i].stamina > Ptr[i].maxStamina)
+                    {
+                        Ptr[i].stamina = Ptr[i].maxStamina;
+                    }
+                }
             }
         }
 
-        [BurstCompile]
         public unsafe void Start(int count)
         {
             var type = "NativeArray<Struct>()";
             var body = "Calc ptr";
 
-            var input = new NativeArray<int>(count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
-            var output = new NativeArray<Data>(count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
+            var data = new NativeArray<Data>(count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
+            for (var i = 0; i < count; i++)
+            {
+                data[i] = new Data
+                {
+                    health = 100f,
+                    maxHealth = 100f,
+                    healthRegenRate = 1f,
+                    stamina = 100f,
+                    maxStamina = 100f,
+                    staminaRegenRate = 1f,
+                };
+            }
 
             var job = new JobParallelFor
             {
-                PtrInput = (int*) input.GetUnsafePtr(),
-                PtrOutput = (Data*) output.GetUnsafePtr()
+                Ptr = (Data*) data.GetUnsafePtr(),
+                DeltaTime = Time.deltaTime
             };
 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            var handle = job.Schedule(count, 16);
+            var handle = job.Schedule(count, 64);
             handle.Complete();
 
             stopwatch.Stop();
@@ -61,8 +87,7 @@ namespace TestsRunner.Tests.Copy
                 $"{body,TestRunner.BodyLength} | " +
                 $"{stopwatch.ElapsedTicks} ticks");
 
-            input.Dispose();
-            output.Dispose();
+            data.Dispose();
         }
     }
 }

@@ -7,7 +7,6 @@ using Unity.Jobs;
 
 namespace TestsRunner.Tests.Fill
 {
-    [BurstCompile]
     public class Copy_NativeArray_JobParallelFor_Unmanaged_Burst
     {
         [BurstCompile]
@@ -25,7 +24,6 @@ namespace TestsRunner.Tests.Fill
             }
         }
 
-        [BurstCompile]
         public unsafe void Start(int count)
         {
             var type = "NativeArray<int>()";

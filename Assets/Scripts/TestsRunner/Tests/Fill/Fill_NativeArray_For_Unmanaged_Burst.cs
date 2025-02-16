@@ -6,9 +6,9 @@ using Unity.Collections.LowLevel.Unsafe;
 
 namespace TestsRunner.Tests.Fill
 {
-    [BurstCompile]
     public unsafe class Fill_NativeArray_For_Unmanaged_Burst
     {
+        [BurstCompile]
         public void Start(int count)
         {
             var type = "NativeArray<int>()";

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Components.UI.DevConsole;
 using Unity.Mathematics;
+using UnityEngine;
 
 namespace TestsRunner.Tests.Update
 {
@@ -8,8 +9,12 @@ namespace TestsRunner.Tests.Update
     {
         private struct Data
         {
-            public int A;
-            public float B;
+            public float health;
+            public float maxHealth;
+            public float healthRegenRate;
+            public float stamina;
+            public float maxStamina;
+            public float staminaRegenRate;
         }
 
         public unsafe void Start(int count)
@@ -17,27 +22,44 @@ namespace TestsRunner.Tests.Update
             var type = "Struct[]";
             var body = "Calc ptr";
 
-            var input = new int[count];
-            var output = new Data[count];
-            var r = new Random(85673057);
+            var data = new Data[count];
 
             for (var i = 0; i < count; i++)
             {
-                input[i] = r.NextInt();
+                data[i] = new Data
+                {
+                    health = 100f,
+                    maxHealth = 100f,
+                    healthRegenRate = 1f,
+                    stamina = 100f,
+                    maxStamina = 100f,
+                    staminaRegenRate = 1f,
+                };
             }
 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            fixed (int* ptr = &input[0])
+            fixed (Data* ptr = &data[0])
             {
-                fixed (Data* ptr2 = &output[0])
+                for (var i = 0; i < count; i++)
                 {
-                    for (var i = 0; i < count; i++)
+                    if (ptr[i].health > 0 && ptr[i].health < ptr[i].maxHealth)
                     {
-                        var n = input[i];
-                        output[i].A = n + n;
-                        output[i].B = n - n / 2f;
+                        ptr[i].health += ptr[i].healthRegenRate * Time.deltaTime;
+                        if (ptr[i].health > ptr[i].maxHealth)
+                        {
+                            ptr[i].health = ptr[i].maxHealth;
+                        }
+                    }
+
+                    if (ptr[i].stamina > 0 && ptr[i].stamina < ptr[i].maxStamina)
+                    {
+                        ptr[i].stamina += ptr[i].staminaRegenRate * Time.deltaTime;
+                        if (ptr[i].stamina > ptr[i].maxStamina)
+                        {
+                            ptr[i].stamina = ptr[i].maxStamina;
+                        }
                     }
                 }
             }

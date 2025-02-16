@@ -4,9 +4,9 @@ using Unity.Burst;
 
 namespace TestsRunner.Tests.Copy
 {
-    [BurstCompile]
     public unsafe class Copy_Array_For_Unmanaged_Burst
     {
+        [BurstCompile]
         public void Start(int count)
         {
             var type = "int[]";

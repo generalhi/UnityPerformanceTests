@@ -2,6 +2,7 @@
 using Components.UI.DevConsole;
 using Unity.Collections;
 using Unity.Jobs;
+using UnityEngine;
 
 namespace TestsRunner.Tests.Copy
 {
@@ -9,22 +10,44 @@ namespace TestsRunner.Tests.Copy
     {
         private struct Data
         {
-            public int A;
-            public float B;
+            public float health;
+            public float maxHealth;
+            public float healthRegenRate;
+            public float stamina;
+            public float maxStamina;
+            public float staminaRegenRate;
         }
 
         private struct JobParallelFor : IJobParallelFor
         {
-            public NativeArray<int> Input;
-            public NativeArray<Data> Output;
+            public NativeArray<Data> Data;
+            public float DeltaTime;
 
             public void Execute(int i)
             {
-                var n = Input[i];
-                var d = Output[i];
-                d.A = n + n;
-                d.B = n - n / 2f;
-                Output[i] = d;
+                var d = Data[i];
+
+                if (d.health > 0 && d.health < d.maxHealth)
+                {
+                    d.health += d.healthRegenRate * DeltaTime;
+                    if (d.health > d.maxHealth)
+                    {
+                        d.health = d.maxHealth;
+                    }
+
+                    Data[i] = d;
+                }
+
+                if (d.stamina > 0 && d.stamina < d.maxStamina)
+                {
+                    d.stamina += d.staminaRegenRate * DeltaTime;
+                    if (d.stamina > d.maxStamina)
+                    {
+                        d.stamina = d.maxStamina;
+                    }
+
+                    Data[i] = d;
+                }
             }
         }
 
@@ -33,10 +56,21 @@ namespace TestsRunner.Tests.Copy
             var type = "NativeArray<Struct>()";
             var body = "Calc";
 
-            var input = new NativeArray<int>(count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
-            var output = new NativeArray<Data>(count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
+            var data = new NativeArray<Data>(count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
+            for (var i = 0; i < count; i++)
+            {
+                data[i] = new Data
+                {
+                    health = 100f,
+                    maxHealth = 100f,
+                    healthRegenRate = 1f,
+                    stamina = 100f,
+                    maxStamina = 100f,
+                    staminaRegenRate = 1f,
+                };
+            }
 
-            var job = new JobParallelFor {Input = input, Output = output};
+            var job = new JobParallelFor {Data = data, DeltaTime = Time.deltaTime};
 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -51,8 +85,7 @@ namespace TestsRunner.Tests.Copy
                 $"{body,TestRunner.BodyLength} | " +
                 $"{stopwatch.ElapsedTicks} ticks");
 
-            input.Dispose();
-            output.Dispose();
+            data.Dispose();
         }
     }
 }

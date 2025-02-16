@@ -4,9 +4,9 @@ using Unity.Burst;
 
 namespace TestsRunner.Tests.Fill
 {
-    [BurstCompile]
     public unsafe class Fill_Array_For_Unmanaged_Burst
     {
+        [BurstCompile]
         public void Start(int count)
         {
             var type = "int[]";

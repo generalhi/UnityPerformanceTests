@@ -6,9 +6,9 @@ using Unity.Collections.LowLevel.Unsafe;
 
 namespace TestsRunner.Tests.Copy
 {
-    [BurstCompile]
     public unsafe class Copy_NativeArray_For_Unmanaged_Burst
     {
+        [BurstCompile]
         public void Start(int count)
         {
             var type = "NativeArray<int>()";

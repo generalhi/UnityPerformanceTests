@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using Components.UI.DevConsole;
-using Unity.Mathematics;
+using UnityEngine;
 
 namespace TestsRunner.Tests.Update
 {
@@ -8,8 +8,12 @@ namespace TestsRunner.Tests.Update
     {
         private struct Data
         {
-            public int A;
-            public float B;
+            public float health;
+            public float maxHealth;
+            public float healthRegenRate;
+            public float stamina;
+            public float maxStamina;
+            public float staminaRegenRate;
         }
 
         public void Start(int count)
@@ -17,13 +21,19 @@ namespace TestsRunner.Tests.Update
             var type = "Struct[]";
             var body = "Calc";
 
-            var input = new int[count];
-            var output = new Data[count];
-            var r = new Random(85673057);
+            var data = new Data[count];
 
             for (var i = 0; i < count; i++)
             {
-                input[i] = r.NextInt();
+                data[i] = new Data
+                {
+                    health = 100f,
+                    maxHealth = 100f,
+                    healthRegenRate = 1f,
+                    stamina = 100f,
+                    maxStamina = 100f,
+                    staminaRegenRate = 1f,
+                };
             }
 
             var stopwatch = new Stopwatch();
@@ -31,9 +41,29 @@ namespace TestsRunner.Tests.Update
 
             for (var i = 0; i < count; i++)
             {
-                var n = input[i];
-                output[i].A = n + n;
-                output[i].B = n - n / 2f;
+                var d = data[i];
+
+                if (d.health > 0 && d.health < d.maxHealth)
+                {
+                    d.health += d.healthRegenRate * Time.deltaTime;
+                    if (d.health > d.maxHealth)
+                    {
+                        d.health = d.maxHealth;
+                    }
+
+                    data[i] = d;
+                }
+
+                if (d.stamina > 0 && d.stamina < d.maxStamina)
+                {
+                    d.stamina += d.staminaRegenRate * Time.deltaTime;
+                    if (d.stamina > d.maxStamina)
+                    {
+                        d.stamina = d.maxStamina;
+                    }
+
+                    data[i] = d;
+                }
             }
 
             stopwatch.Stop();

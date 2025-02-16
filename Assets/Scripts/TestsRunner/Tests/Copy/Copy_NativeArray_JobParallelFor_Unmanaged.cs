@@ -24,7 +24,7 @@ namespace TestsRunner.Tests.Fill
 
         public unsafe void Start(int count)
         {
-            var type = "NativeArray<int>()";
+            var type = "(int*)ptr";
             var body = "ptr1[i] = ptr2[i]";
 
             var input = new NativeArray<int>(count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);

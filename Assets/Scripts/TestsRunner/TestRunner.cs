@@ -61,6 +61,10 @@ namespace TestsRunner
         private readonly Update_Array_For_Unmanaged _updateArrayForUnmanaged = new();
         private readonly Update_Array_For_Unmanaged_Burst _updateArrayForUnmanagedBurst = new();
 
+        private readonly Update_NativeArray_JobSimple_Managed _updateNativeArrayJobSimpleManaged = new();
+        private readonly Update_NativeArray_JobSimple_Unmanaged _updateNativeArrayJobSimpleUnmanaged = new();
+        private readonly Update_NativeArray_JobSimple_Unmanaged_Burst _updateNativeArrayJobSimpleUnmanagedBurst = new();
+
         private readonly Update_NativeArray_JobParallelFor_Managed _updateNativeArrayJobParallelForManaged = new();
         private readonly Update_NativeArray_JobParallelFor_Unmanaged _updateNativeArrayJobParallelForUnmanaged = new();
 
@@ -163,6 +167,10 @@ namespace TestsRunner
             _updateArrayForManaged.Start(count);
             _updateArrayForUnmanaged.Start(count);
             _updateArrayForUnmanagedBurst.Start(count);
+            DevConsole.WriteLine(string.Empty);
+            _updateNativeArrayJobSimpleManaged.Start(count);
+            _updateNativeArrayJobSimpleUnmanaged.Start(count);
+            _updateNativeArrayJobSimpleUnmanagedBurst.Start(count);
             DevConsole.WriteLine(string.Empty);
             _updateNativeArrayJobParallelForManaged.Start(count);
             _updateNativeArrayJobParallelForUnmanaged.Start(count);

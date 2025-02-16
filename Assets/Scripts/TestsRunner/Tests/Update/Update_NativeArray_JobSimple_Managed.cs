@@ -1,13 +1,12 @@
 ﻿using System.Diagnostics;
 using Components.UI.DevConsole;
 using Unity.Collections;
-using Unity.Collections.LowLevel.Unsafe;
 using Unity.Jobs;
 using UnityEngine;
 
-namespace TestsRunner.Tests.Copy
+namespace TestsRunner.Tests.Update
 {
-    public class Update_NativeArray_JobParallelFor_Unmanaged
+    public class Update_NativeArray_JobSimple_Managed
     {
         private struct Data
         {
@@ -19,39 +18,46 @@ namespace TestsRunner.Tests.Copy
             public float staminaRegenRate;
         }
 
-        private unsafe struct JobParallelFor : IJobParallelFor
+        private struct JobSimple : IJob
         {
-            [NativeDisableUnsafePtrRestriction]
-            public Data* Ptr;
-
+            public NativeArray<Data> Data;
             public float DeltaTime;
 
-            public void Execute(int i)
+            public void Execute()
             {
-                if (Ptr[i].health > 0 && Ptr[i].health < Ptr[i].maxHealth)
+                for (var i = 0; i < Data.Length; i++)
                 {
-                    Ptr[i].health += Ptr[i].healthRegenRate * DeltaTime;
-                    if (Ptr[i].health > Ptr[i].maxHealth)
-                    {
-                        Ptr[i].health = Ptr[i].maxHealth;
-                    }
-                }
+                    var d = Data[i];
 
-                if (Ptr[i].stamina > 0 && Ptr[i].stamina < Ptr[i].maxStamina)
-                {
-                    Ptr[i].stamina += Ptr[i].staminaRegenRate * DeltaTime;
-                    if (Ptr[i].stamina > Ptr[i].maxStamina)
+                    if (d.health > 0 && d.health < d.maxHealth)
                     {
-                        Ptr[i].stamina = Ptr[i].maxStamina;
+                        d.health += d.healthRegenRate * DeltaTime;
+                        if (d.health > d.maxHealth)
+                        {
+                            d.health = d.maxHealth;
+                        }
+
+                        Data[i] = d;
+                    }
+
+                    if (d.stamina > 0 && d.stamina < d.maxStamina)
+                    {
+                        d.stamina += d.staminaRegenRate * DeltaTime;
+                        if (d.stamina > d.maxStamina)
+                        {
+                            d.stamina = d.maxStamina;
+                        }
+
+                        Data[i] = d;
                     }
                 }
             }
         }
 
-        public unsafe void Start(int count)
+        public void Start(int count)
         {
-            var type = "(Struct*)ptr";
-            var body = "Calc ptr";
+            var type = "NativeArray<Struct>()";
+            var body = "Calc";
 
             var data = new NativeArray<Data>(count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
             for (var i = 0; i < count; i++)
@@ -67,16 +73,12 @@ namespace TestsRunner.Tests.Copy
                 };
             }
 
-            var job = new JobParallelFor
-            {
-                Ptr = (Data*) data.GetUnsafePtr(),
-                DeltaTime = Time.deltaTime
-            };
+            var job = new JobSimple {Data = data, DeltaTime = Time.deltaTime};
 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            var handle = job.Schedule(count, 64);
+            var handle = job.Schedule();
             handle.Complete();
 
             stopwatch.Stop();

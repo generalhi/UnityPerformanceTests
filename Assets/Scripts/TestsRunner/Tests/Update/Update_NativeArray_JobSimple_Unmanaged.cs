@@ -5,9 +5,9 @@ using Unity.Collections.LowLevel.Unsafe;
 using Unity.Jobs;
 using UnityEngine;
 
-namespace TestsRunner.Tests.Copy
+namespace TestsRunner.Tests.Update
 {
-    public class Update_NativeArray_JobParallelFor_Unmanaged
+    public class Update_NativeArray_JobSimple_Unmanaged
     {
         private struct Data
         {
@@ -19,30 +19,34 @@ namespace TestsRunner.Tests.Copy
             public float staminaRegenRate;
         }
 
-        private unsafe struct JobParallelFor : IJobParallelFor
+        private unsafe struct JobSimple : IJob
         {
             [NativeDisableUnsafePtrRestriction]
             public Data* Ptr;
 
+            public int Length;
             public float DeltaTime;
 
-            public void Execute(int i)
+            public void Execute()
             {
-                if (Ptr[i].health > 0 && Ptr[i].health < Ptr[i].maxHealth)
+                for (var i = 0; i < Length; i++)
                 {
-                    Ptr[i].health += Ptr[i].healthRegenRate * DeltaTime;
-                    if (Ptr[i].health > Ptr[i].maxHealth)
+                    if (Ptr[i].health > 0 && Ptr[i].health < Ptr[i].maxHealth)
                     {
-                        Ptr[i].health = Ptr[i].maxHealth;
+                        Ptr[i].health += Ptr[i].healthRegenRate * DeltaTime;
+                        if (Ptr[i].health > Ptr[i].maxHealth)
+                        {
+                            Ptr[i].health = Ptr[i].maxHealth;
+                        }
                     }
-                }
 
-                if (Ptr[i].stamina > 0 && Ptr[i].stamina < Ptr[i].maxStamina)
-                {
-                    Ptr[i].stamina += Ptr[i].staminaRegenRate * DeltaTime;
-                    if (Ptr[i].stamina > Ptr[i].maxStamina)
+                    if (Ptr[i].stamina > 0 && Ptr[i].stamina < Ptr[i].maxStamina)
                     {
-                        Ptr[i].stamina = Ptr[i].maxStamina;
+                        Ptr[i].stamina += Ptr[i].staminaRegenRate * DeltaTime;
+                        if (Ptr[i].stamina > Ptr[i].maxStamina)
+                        {
+                            Ptr[i].stamina = Ptr[i].maxStamina;
+                        }
                     }
                 }
             }
@@ -67,16 +71,17 @@ namespace TestsRunner.Tests.Copy
                 };
             }
 
-            var job = new JobParallelFor
+            var job = new JobSimple
             {
                 Ptr = (Data*) data.GetUnsafePtr(),
+                Length = count,
                 DeltaTime = Time.deltaTime
             };
 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            var handle = job.Schedule(count, 64);
+            var handle = job.Schedule();
             handle.Complete();
 
             stopwatch.Stop();

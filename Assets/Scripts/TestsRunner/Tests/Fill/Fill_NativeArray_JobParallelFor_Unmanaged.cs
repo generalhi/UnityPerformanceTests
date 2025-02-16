@@ -23,7 +23,7 @@ namespace TestsRunner.Tests.Fill
 
         public unsafe void Start(int count)
         {
-            var type = "NativeArray<int>()";
+            var type = "(int*)ptr";
             var body = "ptr[i] = n";
 
             var input = new NativeArray<int>(count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);

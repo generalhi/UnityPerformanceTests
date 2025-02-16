@@ -25,6 +25,7 @@ namespace TestsRunner.Tests.Copy
         {
             [NativeDisableUnsafePtrRestriction]
             public Data* Ptr;
+
             public float DeltaTime;
 
             public void Execute(int i)
@@ -51,7 +52,7 @@ namespace TestsRunner.Tests.Copy
 
         public unsafe void Start(int count)
         {
-            var type = "NativeArray<Struct>()";
+            var type = "(Struct*)ptr";
             var body = "Calc ptr";
 
             var data = new NativeArray<Data>(count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);

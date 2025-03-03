@@ -20,8 +20,11 @@ namespace TestsRunner
         private Button _buttonRun;
 
         private readonly Fill_Array_For_Managed _fillArrayForManaged = new();
+        private readonly Fill_Array_For_Managed_Atr _fillArrayForManagedAtr = new();
         private readonly Fill_Array_For_Unmanaged _fillArrayForUnmanaged = new();
+        private readonly Fill_Array_For_Unmanaged_Atr _fillArrayForUnmanagedAtr = new();
         private readonly Fill_Array_For_Unmanaged_Burst _fillArrayForUnmanagedBurst = new();
+        private readonly Fill_Array_For_Unmanaged_Atr_Burst _fillArrayForUnmanagedAtrBurst = new();
         private readonly Fill_Array_While_Unmanaged_Burst _fillArrayWhileUnmanagedBurst = new();
 
         private readonly Fill_NativeArray_For_Managed _fillNativeArrayForManaged = new();
@@ -116,8 +119,11 @@ namespace TestsRunner
             DevConsole.WriteLine(string.Empty);
 
             _fillArrayForManaged.Start(count);
+            _fillArrayForManagedAtr.Start(count);
             _fillArrayForUnmanaged.Start(count);
+            _fillArrayForUnmanagedAtr.Start(count);
             _fillArrayForUnmanagedBurst.Start(count);
+            _fillArrayForUnmanagedAtrBurst.Start(count);
             DevConsole.WriteLine(string.Empty);
 
             _fillArrayWhileUnmanagedBurst.Start(count);
